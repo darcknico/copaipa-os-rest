@@ -12,15 +12,15 @@ class NovedadController extends Controller
 {
 	public function index(Request $request){
 		$client = new Client();
-		$crawler = $client->request('GET', 'http://www.copaipa.org.ar/category/Obra-Social-COPAIPA/');
+		$crawler = $client->request('GET', 'http://oscopaipa.org.ar/1367-2/');
 
 		$items = [];
-		foreach ($crawler->filter('.item-list') as $item) {
+		foreach ($crawler->filter('.btSingleLatestPost') as $item) {
 			$item = new Crawler($item);
-			$a = $item->filter('.post-title')->children();
+			$a = $item->filter('.btSingleLatestPostContent header .headline')->children();
 			$post_title = $a->text();
 			$link = $a->extract(['href']);
-			$image = $item->filter('.post-thumbnail > a > img')->image();
+			$image = $item->filter('.btSingleLatestPostImage img')->image();
 			$url = $image->getUri();
 			$contents = file_get_contents($url);
 			/*
@@ -34,7 +34,7 @@ class NovedadController extends Controller
 			*/
 			$image = base64_encode($contents);
 			
-			$entry = $item->filter('.entry > p')->text();
+			$entry = $item->filter('.btSingleLatestPostContent .btLatestPostContent')->text();
 			$items[]=[
 				'post_title' => $post_title,
 				'link' => $link,

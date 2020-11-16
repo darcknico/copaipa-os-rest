@@ -11,6 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/','Web\HomeController@home')->name('home');
+
+Route::get('/app/payment/success','Web\MercadoPagoController@success')->name('mercadopago.success');
+Route::get('/app/payment/pending','Web\MercadoPagoController@pending')->name('mercadopago.pending');
+Route::get('/app/payment/failure','Web\MercadoPagoController@failure')->name('mercadopago.failure');
+

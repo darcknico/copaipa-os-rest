@@ -33,6 +33,7 @@ class Deuda extends Model
         'id_afiliado',
         'interes',
         'tipo',
+        'a_pagar',
     ];
 
     protected function getInteresAttribute(){
@@ -42,5 +43,9 @@ class Deuda extends Model
             $this['anio'],
         ]);
         return $todo[0]->interes??0;
+    }
+
+    protected function getAPagarAttribute(){
+        return  round($this->importe + $this->interes - $this->cobrado);
     }
 }
